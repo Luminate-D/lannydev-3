@@ -22,5 +22,5 @@ jobs:
           port: 22
           rm: true
           strip_components: 1
-          source: "dist/"
+          source: "./"
           target: "/var/www/html/"
