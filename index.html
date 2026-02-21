@@ -8,7 +8,34 @@
         <script src="js/main.js"></script>
     </head>
     <body>
+        <div class="overlay" id="overlay">
+            <div class="overlay-circle"></div>
+            <div class="top-corner-notes overlay-notes">
+                <div class="red-dot-label">Notes</div>
+                <div class="red-dot" id="redDotOverlay"></div>
+            </div>
+            <div class="overlay-content">
+                <div class="notes-wrapper">
+                    <div class="notes-pagination" id="notesPagination">
+                        <span class="notes-arrow" id="notesPrev">&#8592;</span>
+                        <span class="notes-page" id="notesPageNum">1</span>
+                        <span class="notes-arrow" id="notesNext">&#8594;</span>
+                    </div>
+                    <div class="notes-input-row">
+                        <input class="notes-input" id="notesInput" type="text" placeholder="write your thoughts" autocomplete="off" />
+                        <button class="notes-post-btn" id="notesPostBtn">POST</button>
+                    </div>
+                    <div class="notes-list" id="notesList"></div>
+                </div>
+            </div>
+        </div>
+
         <section class="top-section">
+            <div class="top-corner-notes" id="heroNotes">
+                <div class="red-dot-label">Notes</div>
+                <div class="red-dot" id="redDot"></div>
+            </div>
+
             <div class="top-content">
                 <h1 class="nick">lanny.dev</h1>
                 <p class="tagline">developer & music enthusiast</p>
