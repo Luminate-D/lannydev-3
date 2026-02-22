@@ -16,7 +16,7 @@ const renderNotes = async (page) => {
     list.innerHTML = notes.length
         ? notes.map((n, i) => `
             <div class="note-item">
-                <div class="note-timestamp">${n.createdAt}</div>
+                <div class="note-timestamp">${n.created_at}</div>
                 <p class="note-text">${n.text}</p>
             </div>
             ${i < notes.length - 1 ? '<hr class="note-delimiter">' : ''}
