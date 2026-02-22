@@ -1,12 +1,27 @@
 console.log('Hello there :3');
 
-const notesData = [];
 const NOTES_PER_PAGE = 10;
 
 const fetchNotes = async (page) => {
     const res = await fetch(`https://notes.lanny.dev/notes?page=${page}&limit=${NOTES_PER_PAGE}`);
     return await res.json();
 };
+
+function formatDate(isoString) {
+    const date = new Date(isoString);
+
+    const pad = (num) => String(num).padStart(2, '0');
+
+    const year = date.getFullYear();
+    const month = pad(date.getMonth() + 1);
+    const day = pad(date.getDate());
+
+    const hours = pad(date.getHours());
+    const minutes = pad(date.getMinutes());
+    const seconds = pad(date.getSeconds());
+
+    return `${year}.${month}.${day} – ${hours}:${minutes}:${seconds}`;
+}
 
 const renderNotes = async (page) => {
     const list = document.getElementById('notesList');
@@ -16,8 +31,8 @@ const renderNotes = async (page) => {
     list.innerHTML = notes.length
         ? notes.map((n, i) => `
             <div class="note-item">
-                <div class="note-timestamp">${n.created_at}</div>
-                <p class="note-text">${n.text}</p>
+                <div class="note-timestamp">${formatDate(n.created_at)}</div>
+                <p class="note-text">${n.content}</p>
             </div>
             ${i < notes.length - 1 ? '<hr class="note-delimiter">' : ''}
         `).join('')
