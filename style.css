@@ -224,6 +224,18 @@ body::-webkit-scrollbar {
     color: var(--text);
 }
 
+.notes-post-btn:disabled {
+    border-color: var(--text-muted-25);
+    color: var(--text-muted-25);
+    cursor: not-allowed;
+    background: transparent;
+}
+
+.notes-post-btn:disabled:hover {
+    background: transparent;
+    color: var(--text-muted-25);
+}
+
 .notes-list {
     display: flex;
     flex-direction: column;
@@ -253,6 +265,13 @@ body::-webkit-scrollbar {
     background: var(--text-muted-07);
     border: none;
     margin: 0;
+}
+
+.notes-title {
+    width: 100%;
+    text-align: center;
+    color: var(--text-muted-60);
+    margin: 0 0 0.5rem 0;
 }
 
 /* Pagination */

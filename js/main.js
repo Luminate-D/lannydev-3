@@ -1,9 +1,15 @@
 console.log('Hello there :3');
 
-const NOTES_PER_PAGE = 10;
+const NOTE_HEIGHT_PX = 105;
+const MIN_NOTES_PER_PAGE = 5;
+
+const calcNotesPerPage = () => {
+    const available = window.innerHeight * 0.65;
+    return Math.max(MIN_NOTES_PER_PAGE, Math.floor(available / NOTE_HEIGHT_PX));
+};
 
 const fetchNotes = async (page) => {
-    const res = await fetch(`https://notes.lanny.dev/notes?page=${page}&limit=${NOTES_PER_PAGE}`);
+    const res = await fetch(`https://notes.lanny.dev/notes?page=${page}&limit=${calcNotesPerPage()}`);
     return await res.json();
 };
 
@@ -115,10 +121,14 @@ document.addEventListener('DOMContentLoaded', () => {
     renderNotes(currentPage);
     document.getElementById('notesPrev')?.addEventListener('click', () => currentPage > 1 && renderNotes(--currentPage));
     document.getElementById('notesNext')?.addEventListener('click', () => renderNotes(++currentPage));
-    document.getElementById('notesPostBtn')?.addEventListener('click', async () => {
-        const input = document.getElementById('notesInput');
-        const text = input.value.trim();
-        if (!text) return;
+    const postBtn = document.getElementById('notesPostBtn');
+    const notesInput = document.getElementById('notesInput');
+
+    let rateLimitTimer = null;
+
+    const sendNote = async () => {
+        const text = notesInput?.value.trim();
+        if (!text || postBtn?.disabled) return;
 
         await fetch('https://notes.lanny.dev/create', {
             method: 'POST',
@@ -126,7 +136,34 @@ document.addEventListener('DOMContentLoaded', () => {
             body: JSON.stringify({ content: text }),
         });
 
-        input.value = '';
+        notesInput.value = '';
         renderNotes(currentPage);
+
+        postBtn.disabled = true;
+        let seconds = 60;
+        postBtn.textContent = '1:00';
+
+        rateLimitTimer = setInterval(() => {
+            seconds--;
+            const m = Math.floor(seconds / 60);
+            const s = seconds % 60;
+            postBtn.textContent = `${m}:${s.toString().padStart(2, '0')}`;
+
+            if (seconds <= 0) {
+                clearInterval(rateLimitTimer);
+                rateLimitTimer = null;
+                postBtn.disabled = false;
+                postBtn.textContent = 'POST';
+            }
+        }, 1000);
+    };
+
+    postBtn?.addEventListener('click', sendNote);
+
+    notesInput?.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendNote();
+        }
     });
 });
