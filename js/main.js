@@ -1,15 +1,11 @@
 console.log('Hello there :3');
 
-const notesData = [{ timestamp: '0000.00.00 — 70:00', text: 'Coming soon...' }];
+const notesData = [];
 const NOTES_PER_PAGE = 10;
 
 const fetchNotes = async (page) => {
-    await new Promise(r => setTimeout(r, 0));
-    const start = (page - 1) * NOTES_PER_PAGE;
-    return {
-        notes: notesData.slice(start, start + NOTES_PER_PAGE),
-        hasNext: notesData.length > start + NOTES_PER_PAGE
-    };
+    const res = await fetch(`https://notes.lanny.dev/notes?page=${page}&limit=${NOTES_PER_PAGE}`);
+    return await res.json();
 };
 
 const renderNotes = async (page) => {
@@ -20,7 +16,7 @@ const renderNotes = async (page) => {
     list.innerHTML = notes.length
         ? notes.map((n, i) => `
             <div class="note-item">
-                <div class="note-timestamp">${n.timestamp}</div>
+                <div class="note-timestamp">${n.createdAt}</div>
                 <p class="note-text">${n.text}</p>
             </div>
             ${i < notes.length - 1 ? '<hr class="note-delimiter">' : ''}
@@ -104,16 +100,18 @@ document.addEventListener('DOMContentLoaded', () => {
     renderNotes(currentPage);
     document.getElementById('notesPrev')?.addEventListener('click', () => currentPage > 1 && renderNotes(--currentPage));
     document.getElementById('notesNext')?.addEventListener('click', () => renderNotes(++currentPage));
-    document.getElementById('notesPostBtn')?.addEventListener('click', () => {
+    document.getElementById('notesPostBtn')?.addEventListener('click', async () => {
         const input = document.getElementById('notesInput');
         const text = input.value.trim();
         if (!text) return;
-        const pad = n => String(n).padStart(2, '0');
-        const now = new Date();
-        const timestamp = `${now.getFullYear()}.${pad(now.getMonth()+1)}.${pad(now.getDate())} — ${pad(now.getHours())}:${pad(now.getMinutes())}`;
-        notesData.unshift({ timestamp, text });
+
+        await fetch('https://notes.lanny.dev/create', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ content: text }),
+        });
+
         input.value = '';
-        currentPage = 1;
         renderNotes(currentPage);
     });
 });
