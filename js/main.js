@@ -1,53 +1,4 @@
-console.log('Hello there :3');
-
-const NOTE_HEIGHT_PX = 105;
-const MIN_NOTES_PER_PAGE = 5;
-
-const calcNotesPerPage = () => {
-    const available = window.innerHeight * 0.65;
-    return Math.max(MIN_NOTES_PER_PAGE, Math.floor(available / NOTE_HEIGHT_PX));
-};
-
-const fetchNotes = async (page) => {
-    const res = await fetch(`https://notes.lanny.dev/notes?page=${page}&limit=${calcNotesPerPage()}`);
-    return await res.json();
-};
-
-function formatDate(isoString) {
-    const date = new Date(isoString);
-
-    const pad = (num) => String(num).padStart(2, '0');
-
-    const year = date.getFullYear();
-    const month = pad(date.getMonth() + 1);
-    const day = pad(date.getDate());
-
-    const hours = pad(date.getHours());
-    const minutes = pad(date.getMinutes());
-    const seconds = pad(date.getSeconds());
-
-    return `${year}.${month}.${day} – ${hours}:${minutes}:${seconds}`;
-}
-
-const renderNotes = async (page) => {
-    const list = document.getElementById('notesList');
-    if (!list) return;
-
-    const { notes, hasNext } = await fetchNotes(page);
-    list.innerHTML = notes.length
-        ? notes.map((n, i) => `
-            <div class="note-item">
-                <div class="note-timestamp">${formatDate(n.created_at)}</div>
-                <p class="note-text">${n.content}</p>
-            </div>
-            ${i < notes.length - 1 ? '<hr class="note-delimiter">' : ''}
-        `).join('')
-        : `<div class="notes-empty">No more notes :(</div>`;
-
-    document.getElementById('notesPageNum').textContent = page;
-    document.getElementById('notesPrev').classList.toggle('disabled', page <= 1);
-    document.getElementById('notesNext').classList.toggle('disabled', !hasNext);
-};
+import './notes.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const audio = document.getElementById('audioPlayer');
@@ -66,8 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     audio?.addEventListener('timeupdate', () => {
         const pct = (audio.currentTime / audio.duration) * 100;
         progressBar.style.width = pct + '%';
-        const m = Math.floor(audio.currentTime / 60);
-        const s = Math.floor(audio.currentTime % 60);
+        const m = Math.floor(audio.currentTime / 60), s = Math.floor(audio.currentTime % 60);
         timeDisplay.textContent = `${m}:${s.toString().padStart(2, '0')}`;
     });
 
@@ -76,94 +26,8 @@ document.addEventListener('DOMContentLoaded', () => {
         audio.currentTime = ((e.clientX - rect.left) / rect.width) * audio.duration;
     });
 
-    audio?.addEventListener('ended', () => {
-        playBtn.textContent = '▶';
-        isPlaying = false;
-        progressBar.style.width = '0%';
-    });
+    audio?.addEventListener('ended', () => { playBtn.textContent = '▶'; isPlaying = false; progressBar.style.width = '0%'; });
 
-    document.querySelectorAll('.tonality').forEach(t => t.addEventListener('click', () => {
-        new Audio(`assets/${t.dataset.sound}`).play();
-    }));
-
+    document.querySelectorAll('.tonality').forEach(t => t.addEventListener('click', () => new Audio(`assets/${t.dataset.sound}`).play()));
     document.getElementById('year') && (document.getElementById('year').textContent = new Date().getFullYear());
-
-    const redDot = document.getElementById('redDot');
-    const overlay = document.getElementById('overlay');
-    const overlayCircle = document.querySelector('.overlay-circle');
-    const redDotOverlay = document.getElementById('redDotOverlay');
-    let animating = false;
-
-    const syncCircle = () => {
-        if (!overlayCircle || !redDot) return;
-        const r = redDot.getBoundingClientRect();
-        Object.assign(overlayCircle.style, { left: r.left + 'px', top: r.top + 'px', width: r.width + 'px', height: r.height + 'px' });
-        const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
-        const maxDist = Math.max(
-            Math.hypot(cx, cy),
-            Math.hypot(window.innerWidth - cx, cy),
-            Math.hypot(cx, window.innerHeight - cy),
-            Math.hypot(window.innerWidth - cx, window.innerHeight - cy)
-        );
-        document.documentElement.style.setProperty('--overlay-scale', Math.ceil((maxDist / (r.width / 2)) * 1.05));
-    };
-
-    redDot && overlay && overlayCircle && (() => {
-        const open = () => { if (animating) return; animating = true; syncCircle(); overlay.classList.add('open'); setTimeout(() => { overlay.classList.add('show-content'); animating = false; }, 700); };
-        const close = () => { if (animating) return; animating = true; overlay.classList.remove('show-content'); setTimeout(() => { overlay.classList.remove('open'); animating = false; }, 300); };
-        redDot.addEventListener('click', open);
-        redDotOverlay.addEventListener('click', close);
-        window.addEventListener('resize', syncCircle);
-        syncCircle();
-    })();
-
-    let currentPage = 1;
-    renderNotes(currentPage);
-    document.getElementById('notesPrev')?.addEventListener('click', () => currentPage > 1 && renderNotes(--currentPage));
-    document.getElementById('notesNext')?.addEventListener('click', () => renderNotes(++currentPage));
-    const postBtn = document.getElementById('notesPostBtn');
-    const notesInput = document.getElementById('notesInput');
-
-    let rateLimitTimer = null;
-
-    const sendNote = async () => {
-        const text = notesInput?.value.trim();
-        if (!text || postBtn?.disabled) return;
-
-        await fetch('https://notes.lanny.dev/create', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ content: text }),
-        });
-
-        notesInput.value = '';
-        renderNotes(currentPage);
-
-        postBtn.disabled = true;
-        let seconds = 60;
-        postBtn.textContent = '1:00';
-
-        rateLimitTimer = setInterval(() => {
-            seconds--;
-            const m = Math.floor(seconds / 60);
-            const s = seconds % 60;
-            postBtn.textContent = `${m}:${s.toString().padStart(2, '0')}`;
-
-            if (seconds <= 0) {
-                clearInterval(rateLimitTimer);
-                rateLimitTimer = null;
-                postBtn.disabled = false;
-                postBtn.textContent = 'POST';
-            }
-        }, 1000);
-    };
-
-    postBtn?.addEventListener('click', sendNote);
-
-    notesInput?.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            sendNote();
-        }
-    });
 });
