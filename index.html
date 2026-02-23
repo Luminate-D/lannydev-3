@@ -4,10 +4,19 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>lanny</title>
-        <link rel="stylesheet" href="style.css" />
+<!--        <link rel="stylesheet" href="style.css" />-->
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/base.css">
+        <link rel="stylesheet" href="css/overlay.css">
+        <link rel="stylesheet" href="css/hero.css">
+        <link rel="stylesheet" href="css/audio.css">
+        <link rel="stylesheet" href="css/notes.css">
+        <link rel="stylesheet" href="css/compositions.css">
+        <link rel="stylesheet" href="css/mobile.css">
         <script type="module" src="js/main.js"></script>
     </head>
     <body>
+        <!-- Notes overlay -->
         <div class="overlay" id="overlay">
             <div class="overlay-circle"></div>
             <div class="top-corner-notes overlay-notes">
@@ -31,10 +40,31 @@
             </div>
         </div>
 
+        <!-- Compositions overlay -->
+        <div class="overlay" id="compositionsOverlay">
+            <div class="overlay-circle" id="compositionsOverlayCircle"></div>
+            <div class="top-corner-notes overlay-notes" id="compositionsOverlayClose">
+                <div class="red-dot-label">close</div>
+                <div class="red-dot" id="redDotCompositionsOverlay"></div>
+            </div>
+            <div class="overlay-content">
+                <div class="compositions-wrapper">
+                    <p class="compositions-title">COMPOSITIONS</p>
+                    <div class="compositions-list" id="compositionsList"></div>
+                </div>
+            </div>
+        </div>
+
         <section class="top-section">
             <div class="top-corner-notes" id="heroNotes">
                 <div class="red-dot-label">Notes</div>
                 <div class="red-dot" id="redDot"></div>
+            </div>
+
+            <!-- "i made those" button -->
+            <div class="top-corner-imadethose" id="heroIMadeThose">
+                <div class="red-dot-label">i made those</div>
+                <div class="red-dot" id="redDotIMadeThose"></div>
             </div>
 
             <div class="top-content">
@@ -43,15 +73,9 @@
                 <p class="info-text">🎹 chopin & beethoven</p>
 
                 <nav class="socials">
-                    <a href="https://github.com/Luminate-D" class="social-link" title="GitHub">
-                        GitHub
-                    </a>
-                    <a href="https://discord.com/users/974442399197712384" class="social-link" title="Discord">
-                        Discord
-                    </a>
-                    <a href="https://t.me/lannts" class="social-link" title="Telegram">
-                        Telegram
-                    </a>
+                    <a href="https://github.com/Luminate-D" class="social-link" title="GitHub">GitHub</a>
+                    <a href="https://discord.com/users/974442399197712384" class="social-link" title="Discord">Discord</a>
+                    <a href="https://t.me/lannts" class="social-link" title="Telegram">Telegram</a>
                 </nav>
 
                 <div class="audio-section">
@@ -62,25 +86,14 @@
                         </div>
                         <span class="time-display" id="timeDisplay">0:00</span>
                     </div>
-                    <audio id="audioPlayer" src="assets/appassionata_3rd.mp3"></audio>
+                    <audio id="audioPlayer" src="assets/feelings/appassionata_3rd.mp3"></audio>
                     <p class="audio-label">today's feeling</p>
                 </div>
+
+                <p class="hero-footer-text">
+                    From <span class="tonality" data-sound="Cm.mp3">C minor</span>'s fire to <span class="tonality" data-sound="Csm.mp3">C# minor</span>'s quiet depth · <span id="year">forever</span>
+                </p>
             </div>
         </section>
-
-        <section class="projects">
-            <h2>Projects</h2>
-            <div class="projects-grid">
-                :)
-<!--                <a href="https://example.com" class="project-card">-->
-<!--                    <h3 class="project-title">Hubble Horizon</h3>-->
-<!--                    <p class="project-description">2D demo display of Universe expansion and Hubble Sphere</p>-->
-<!--                </a>-->
-            </div>
-        </section>
-
-        <footer class="footer">
-            <p>From <span class="tonality" data-sound="Cm.mp3">C minor</span>'s fire to <span class="tonality" data-sound="Csm.mp3">C# minor</span>'s quiet depth · <span id="year">forever</span></p>
-        </footer>
     </body>
 </html>

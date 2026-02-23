@@ -1,4 +1,5 @@
 import './notes.js';
+import './imadethose.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const audio = document.getElementById('audioPlayer');

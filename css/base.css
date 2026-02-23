@@ -1,0 +1,15 @@
+html {
+    scroll-behavior: smooth;
+    height: 100%;
+}
+
+body {
+    width: 100%;
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    background: linear-gradient(135deg, var(--bg) 0%, var(--bg-secondary) 100%);
+    color: var(--text);
+    overflow-x: hidden;
+}

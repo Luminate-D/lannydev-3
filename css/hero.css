@@ -1,0 +1,101 @@
+.top-section {
+    position: relative;
+    width: 100%;
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6rem 2rem 4rem;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.top-content {
+    text-align: center;
+    max-width: 600px;
+}
+
+.nick {
+    font-size: clamp(3.5rem, 12vw, 7rem);
+    margin: 0;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--accent-light), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.tagline {
+    font-size: 1.1rem;
+    margin: 1.5rem 0 0 0;
+    opacity: 0.85;
+    font-weight: 400;
+    color: var(--text);
+}
+
+.info-text {
+    font-size: 1rem;
+    margin: 0.75rem 0 0 0;
+    opacity: 0.75;
+    color: var(--text-dim);
+}
+
+.socials {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2.5rem;
+    flex-wrap: wrap;
+}
+
+.social-link {
+    padding: 0.8rem 2rem;
+    border: 1px solid var(--accent);
+    border-radius: 0.3rem;
+    background: transparent;
+    color: var(--accent-light);
+    text-decoration: none;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+}
+
+.social-link:hover {
+    background: var(--accent);
+    color: var(--text);
+    border-color: var(--accent-light);
+    box-shadow: 0 0 12px var(--accent-light);
+}
+
+.social-link:active {
+    transform: scale(0.98);
+}
+
+.hero-footer-text {
+    margin-top: 2.5rem;
+    font-size: 0.82rem;
+    color: var(--text-muted-60);
+    letter-spacing: 0.04em;
+    line-height: 1.6;
+}
+
+.hero-footer-text .tonality {
+    cursor: pointer;
+    color: var(--accent-light);
+    text-decoration: underline;
+}
+
+.top-corner-imadethose {
+    position: absolute;
+    top: 4.5rem;
+    right: 2.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    z-index: 10;
+    transition: opacity 0.25s ease-in-out;
+}

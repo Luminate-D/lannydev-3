@@ -1,0 +1,107 @@
+.top-corner-notes {
+    position: absolute;
+    top: 2rem;
+    right: 2.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    z-index: 10;
+}
+
+.red-dot-label {
+    font-size: 0.8rem;
+    color: var(--text-muted-60);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    pointer-events: none;
+}
+
+.red-dot {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--accent-strong);
+    box-shadow: 0 0 14px var(--accent-glow);
+    cursor: pointer;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    flex-shrink: 0;
+}
+
+.red-dot:hover {
+    transform: scale(1.15);
+    box-shadow: 0 0 20px var(--accent-glow-strong);
+}
+
+.overlay-notes {
+    position: fixed;
+    top: 2rem;
+    right: 2.5rem;
+    z-index: 200;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease-in-out;
+}
+
+.overlay.show-content .overlay-notes {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.overlay.open ~ .top-section #heroNotes {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease-in-out;
+}
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 50;
+    background: transparent;
+}
+
+.overlay-circle {
+    position: fixed;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 2px solid var(--accent-strong);
+    background: var(--bg);
+    transform-origin: center;
+    transform: scale(0);
+    opacity: 1;
+    transition: transform 0.7s ease-in-out;
+    pointer-events: none;
+}
+
+.overlay.open {
+    pointer-events: auto;
+}
+
+.overlay.open .overlay-circle {
+    transform: scale(300);
+}
+
+.overlay-content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 6rem;
+    opacity: 0;
+    transition: opacity 0.25s ease-in-out;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none;
+}
+
+.overlay-content::-webkit-scrollbar {
+    display: none;
+}
+
+.overlay.show-content .overlay-content {
+    opacity: 1;
+}
