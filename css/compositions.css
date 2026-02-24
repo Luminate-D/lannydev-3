@@ -53,6 +53,18 @@
     gap: 1rem;
 }
 
+.comp-name-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.comp-release-date {
+    font-size: 0.7rem;
+    color: var(--text-muted-60);
+    letter-spacing: 0.08em;
+}
+
 .comp-name {
     font-size: 1rem;
     color: var(--text);

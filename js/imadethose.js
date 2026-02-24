@@ -2,18 +2,26 @@ const fetchCompositions = async () => {
     return [
         {
             id: 1,
+            releaseDate: '2025-11-23T00:00:00.000Z',
             name: 'Waltz in C♯ minor',
             audio: 'assets/compositions/waltzcsharp.mp3',
             pdf: 'assets/compositions/waltzcsharp.pdf',
             dedication: 'tous mes proches, amis et connaissances',
         }, {
-            id: 1,
+            id: 2,
+            releaseDate: '2026-02-24T00:00:00.000Z',
             name: 'Marche in A minor',
             audio: 'assets/compositions/marchaminor.mp3',
             pdf: 'assets/compositions/marchaminor.pdf',
             dedication: 'l’irréversible',
         },
     ];
+};
+
+const formatDate = (isoString) => {
+    const d = new Date(isoString);
+    const pad = (n) => String(n).padStart(2, '0');
+    return `${d.getFullYear()}.${pad(d.getMonth() + 1)}.${pad(d.getDate())}`;
 };
 
 const createAudioPlayer = (src, id) => {
@@ -115,10 +123,22 @@ const renderCompositions = async () => {
         const header = document.createElement('div');
         header.className = 'comp-header';
 
+        const nameWrap = document.createElement('div');
+        nameWrap.className = 'comp-name-wrap';
+
+        if (comp.releaseDate) {
+            const date = document.createElement('span');
+            date.className = 'comp-release-date';
+            date.textContent = formatDate(comp.releaseDate);
+            nameWrap.appendChild(date);
+        }
+
         const name = document.createElement('span');
         name.className = 'comp-name';
         name.textContent = comp.name;
-        header.appendChild(name);
+        nameWrap.appendChild(name);
+
+        header.appendChild(nameWrap);
 
         if (comp.dedication) {
             const ded = document.createElement('span');
