@@ -39,12 +39,21 @@ const createAudioPlayer = (src, id) => {
     progressBar.className = 'progress-bar';
     progressContainer.appendChild(progressBar);
 
+    const formatTime = (sec) => {
+        const m = Math.floor(sec / 60), s = Math.floor(sec % 60);
+        return `${m}:${s.toString().padStart(2, '0')}`;
+    };
+
     const timeDisplay = document.createElement('span');
     timeDisplay.className = 'time-display';
     timeDisplay.textContent = '0:00';
 
     const audio = new Audio(src);
     let isPlaying = false;
+
+    audio.addEventListener('loadedmetadata', () => {
+        timeDisplay.textContent = formatTime(audio.duration);
+    });
 
     playBtn.addEventListener('click', () => {
         // Pause all other composition players
@@ -68,9 +77,9 @@ const createAudioPlayer = (src, id) => {
     audio.addEventListener('timeupdate', () => {
         const pct = (audio.currentTime / audio.duration) * 100 || 0;
         progressBar.style.width = pct + '%';
-        const m = Math.floor(audio.currentTime / 60);
-        const s = Math.floor(audio.currentTime % 60);
-        timeDisplay.textContent = `${m}:${s.toString().padStart(2, '0')}`;
+        if (isPlaying) {
+            timeDisplay.textContent = formatTime(audio.currentTime);
+        }
     });
 
     progressContainer.addEventListener('click', e => {
@@ -82,6 +91,7 @@ const createAudioPlayer = (src, id) => {
         playBtn.textContent = '▶';
         isPlaying = false;
         progressBar.style.width = '0%';
+        timeDisplay.textContent = formatTime(audio.duration);
     });
 
     wrapper._audio = audio;
