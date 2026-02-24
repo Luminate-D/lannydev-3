@@ -6,6 +6,12 @@ const fetchCompositions = async () => {
             audio: 'assets/compositions/waltzcsharp.mp3',
             pdf: 'assets/compositions/waltzcsharp.pdf',
             dedication: 'tous mes proches, amis et connaissances',
+        }, {
+            id: 1,
+            name: 'Marche in A minor',
+            audio: 'assets/compositions/marchaminor.mp3',
+            pdf: 'assets/compositions/marchaminor.pdf',
+            dedication: 'l’irréversible',
         },
     ];
 };
