@@ -1,21 +1,6 @@
 const fetchCompositions = async () => {
-    return [
-        {
-            id: 1,
-            releaseDate: '2025-11-23T00:00:00.000Z',
-            name: 'Waltz in C♯ minor',
-            audio: 'assets/compositions/waltzcsharp.mp3',
-            pdf: 'assets/compositions/waltzcsharp.pdf',
-            dedication: 'tous mes proches, amis et connaissances',
-        }, {
-            id: 2,
-            releaseDate: '2026-02-24T00:00:00.000Z',
-            name: 'Marche in A minor',
-            audio: 'assets/compositions/marchaminor.mp3',
-            pdf: 'assets/compositions/marchaminor.pdf',
-            dedication: 'l’irréversible',
-        },
-    ];
+    const res = await fetch('https://api.lanny.dev/compositions');
+    return await res.json();
 };
 
 const formatDate = (isoString) => {
@@ -136,10 +121,10 @@ const renderCompositions = async () => {
         const nameWrap = document.createElement('div');
         nameWrap.className = 'comp-name-wrap';
 
-        if (comp.releaseDate) {
+        if (comp.release_date) {
             const date = document.createElement('span');
             date.className = 'comp-release-date';
-            date.textContent = formatDate(comp.releaseDate);
+            date.textContent = formatDate(comp.release_date);
             nameWrap.appendChild(date);
         }
 
@@ -161,12 +146,12 @@ const renderCompositions = async () => {
         const playerRow = document.createElement('div');
         playerRow.className = 'comp-player-row';
 
-        const player = createAudioPlayer(comp.audio, comp.id);
+        const player = createAudioPlayer(`assets/compositions/${comp.file_key}.mp3`, comp.id);
         playerRow.appendChild(player);
 
         const downloadBtn = document.createElement('a');
         downloadBtn.className = 'comp-download-btn';
-        downloadBtn.href = comp.pdf;
+        downloadBtn.href = `assets/compositions/${comp.file_key}.pdf`;
         downloadBtn.download = '';
         downloadBtn.textContent = 'PDF SCORE';
         downloadBtn.title = 'Download PDF score';

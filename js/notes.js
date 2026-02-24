@@ -5,7 +5,7 @@ const calcNotesPerPage = () =>
     Math.max(MIN_NOTES_PER_PAGE, Math.floor(window.innerHeight * 0.65 / NOTE_HEIGHT_PX));
 
 const fetchNotes = async (page) => {
-    const res = await fetch(`https://notes.lanny.dev/notes?page=${page}&limit=${calcNotesPerPage()}`);
+    const res = await fetch(`https://api.lanny.dev/notes?page=${page}&limit=${calcNotesPerPage()}`);
     return res.json();
 };
 
