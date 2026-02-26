@@ -7,34 +7,40 @@ const states = {
     LOGGED_IN: 'loggedIn',
 };
 
+const setUserCard = (me) => {
+    const card = document.getElementById('userCard');
+    const loginBtn = document.getElementById('loginBtn');
+    if (!card || !loginBtn) return;
+
+    if (!me) {
+        card.hidden = true;
+        loginBtn.hidden = false;
+        return;
+    }
+
+    document.getElementById('userAvatar').src = me.photo_url || '';
+    document.getElementById('userName').textContent = `@${me.username || 'unknown'}`;
+    document.getElementById('userSub').textContent = `ID: ${me.telegram_id}`;
+    card.hidden = false;
+    loginBtn.hidden = true;
+};
+
 const setButtonState = (btn, state) => {
     if (!btn) return;
 
-    btn.classList.remove('is-loading');
+    btn.classList.remove('is-loading', 'is-logged-in');
     btn.disabled = false;
 
     if (state === states.LOADING) {
-        btn.textContent = 'LOGGING IN';
+        btn.textContent = 'logging in...';
         btn.disabled = true;
         btn.classList.add('is-loading');
         return;
     }
 
     if (state === states.LOGGED_IN) {
-        btn.innerHTML = `
-            <div class="user-section">
-                <a class="user-link">
-                    <span class="user-avatar">
-                        <img src="${ssoUser.photo_url}" />
-                    </span>
-                    <span class="user-meta">
-                        <span class="user-name">@${ssoUser.username || 'unknown'}</span>
-                        <span class="user-sub">ID: ${ssoUser.telegram_id}</span>
-                    </span>
-                </a>
-            </div>
-        `;
         btn.disabled = true;
+        btn.classList.add('is-logged-in');
         return;
     }
 
@@ -57,11 +63,14 @@ const initAuth = async () => {
         const me = await fetchMe();
         if (me) {
             window.ssoUser = me;
+            setUserCard(me);
             setButtonState(loginBtn, states.LOGGED_IN);
         } else {
+            setUserCard(null);
             setButtonState(loginBtn, states.LOGIN);
         }
     } catch {
+        setUserCard(null);
         setButtonState(loginBtn, states.LOGIN);
     }
 
@@ -84,11 +93,14 @@ const initAuth = async () => {
                 const me = await fetchMe();
                 if (me) {
                     window.ssoUser = me;
+                    setUserCard(me);
                     setButtonState(loginBtn, states.LOGGED_IN);
                 } else {
+                    setUserCard(null);
                     setButtonState(loginBtn, states.LOGIN);
                 }
             } catch {
+                setUserCard(null);
                 setButtonState(loginBtn, states.LOGIN);
             }
         }, 500);
@@ -96,4 +108,3 @@ const initAuth = async () => {
 };
 
 document.addEventListener('DOMContentLoaded', initAuth);
-
