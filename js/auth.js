@@ -1,13 +1,6 @@
 const SSO_ME_URL = 'https://sso.lanny.dev/@me';
 const SSO_LOGIN_URL = 'https://sso.lanny.dev/?close';
 
-window.addEventListener('message', (event) => {
-    console.log('received message', event);
-    if (event.data.type === 'SSO_SUCCESS') {
-        console.log(event.data);
-    }
-});
-
 const states = {
     LOGIN: 'login',
     LOADING: 'loading',
@@ -28,7 +21,17 @@ const setButtonState = (btn, state) => {
     }
 
     if (state === states.LOGGED_IN) {
-        btn.textContent = 'LOGGED IN';
+        btn.innerHTML = `
+            <a class="user-link">
+                <span class="user-avatar">
+                    <img src="${ssoUser.photo_url}" />
+                </span>
+                <span class="user-meta">
+                    <span class="user-name">@${ssoUser.username || 'unknown'}</span>
+                    <span class="user-sub">ID: ${ssoUser.telegram_id}</span>
+                </span>
+            </a>
+        `;
         btn.disabled = true;
         return;
     }
