@@ -28,6 +28,10 @@
         font-size: clamp(2.8rem, 18vw, 5rem);
     }
 
+    .nick-dev {
+        display: none;
+    }
+
     .tagline {
         font-size: 0.95rem;
     }
