@@ -87,4 +87,9 @@
         font-size: 0.68rem;
         padding: 0.28rem 0.6rem;
     }
+
+    .top-corner-login {
+        top: 1.25rem;
+        left: 1.25rem;
+    }
 }

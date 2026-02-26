@@ -48,4 +48,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('.tonality').forEach(t => t.addEventListener('click', () => new Audio(`assets/${t.dataset.sound}`).play()));
     document.getElementById('year') && (document.getElementById('year').textContent = new Date().getFullYear());
+
+    const loginBtn = document.getElementById('loginBtn');
+    loginBtn?.addEventListener('click', () => {
+        const popup = window.open('https://sso.lanny.dev', 'ssoLogin', 'width=320,height=520');
+        if (!popup) return;
+
+        const poll = setInterval(() => {
+            if (popup.closed) {
+                clearInterval(poll);
+                fetch('https://sso.lanny.dev/@me', { credentials: 'include' })
+                    .then(res => res.json())
+                    .then(data => console.log('SSO @me:', data))
+                    .catch(err => console.error('SSO error:', err));
+            }
+        }, 500);
+    });
 });
