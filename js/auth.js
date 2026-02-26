@@ -1,6 +1,13 @@
 const SSO_ME_URL = 'https://sso.lanny.dev/@me';
 const SSO_LOGIN_URL = 'https://sso.lanny.dev/?close';
 
+window.addEventListener('message', (event) => {
+    console.log('received message', event);
+    if (event.data.type === 'SSO_SUCCESS') {
+        console.log(event.data);
+    }
+});
+
 const states = {
     LOGIN: 'login',
     LOADING: 'loading',
