@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const loginBtn = document.getElementById('loginBtn');
     loginBtn?.addEventListener('click', () => {
-        const popup = window.open('https://sso.lanny.dev', 'ssoLogin', 'width=320,height=520');
+        const popup = window.open('https://sso.lanny.dev', 'ssoLogin', 'width=500,height=600');
         if (!popup) return;
 
         const poll = setInterval(() => {
