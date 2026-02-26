@@ -191,7 +191,14 @@
     color: var(--text-dim);
 }
 
----
+/*---*/
+.user-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+}
+
 .user-link {
     display: grid;
     grid-template-columns: 40px 1fr;

@@ -22,15 +22,17 @@ const setButtonState = (btn, state) => {
 
     if (state === states.LOGGED_IN) {
         btn.innerHTML = `
-            <a class="user-link">
-                <span class="user-avatar">
-                    <img src="${ssoUser.photo_url}" />
-                </span>
-                <span class="user-meta">
-                    <span class="user-name">@${ssoUser.username || 'unknown'}</span>
-                    <span class="user-sub">ID: ${ssoUser.telegram_id}</span>
-                </span>
-            </a>
+            <div class="user-section">
+                <a class="user-link">
+                    <span class="user-avatar">
+                        <img src="${ssoUser.photo_url}" />
+                    </span>
+                    <span class="user-meta">
+                        <span class="user-name">@${ssoUser.username || 'unknown'}</span>
+                        <span class="user-sub">ID: ${ssoUser.telegram_id}</span>
+                    </span>
+                </a>
+            </div>
         `;
         btn.disabled = true;
         return;
