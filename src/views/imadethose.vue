@@ -173,6 +173,7 @@ onBeforeUnmount(() => {
 
 <style scoped lang="scss">
 @use '@/sass/variables' as *;
+@use '@/sass/audio';
 
 .wrapper {
   position: absolute;
