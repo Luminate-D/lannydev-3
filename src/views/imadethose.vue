@@ -95,7 +95,6 @@ const timeDisplay = (id: number) => {
 }
 
 const playSymbol = (id: number) => (ensureState(id).isPlaying ? '⏸' : '▶')
-
 const fetchCompositions = async () => {
   loading.value = true
   error.value = false
