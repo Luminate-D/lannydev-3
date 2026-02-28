@@ -13,6 +13,17 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4.2.2
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install deps
+        run: yarn install --frozen-lockfile
+
+      - name: Build
+        run: yarn build
+
       - name: Deploy
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -22,5 +33,5 @@ jobs:
           port: 22
           rm: true
           strip_components: 1
-          source: "./"
+          source: "dist/**"
           target: "/var/www/html/"

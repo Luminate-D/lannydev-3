@@ -1,0 +1,75 @@
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('@/assets/fonts/JetBrainsMono-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+// Colors
+$bg:                #0e1118;
+$bg-secondary:      #151a26;
+$text:              #f0f2f8;
+$text-dim:          #a4adbd;
+$text-muted-60:     #F0F2F899;
+$text-muted-75:     #F0F2F8BF;
+$text-muted-25:     #F0F2F840;
+$text-muted-20:     #F0F2F833;
+$text-muted-07:     #F0F2F812;
+$accent:            #e04646;
+$accent-light:      #ff6b6b;
+$accent-strong:     #ff3b3b;
+$accent-glow:       #FF3B3BBF;
+$accent-glow-strong:#FF3B3BF2;
+$accent-surface-05: #E046460D;
+$accent-surface-12: #E046461F;
+$accent-shadow-20:  #E0464633;
+$accent-shadow-40:  #E0464666;
+$border:            #1e2433;
+
+// Button gray
+$btn-gray-bg:           $text-muted-07;
+$btn-gray-bg-hover:     $text-muted-20;
+$btn-gray-border:       $text-muted-25;
+$btn-gray-border-hover: $text-muted-60;
+$btn-gray-text:         $text-muted-75;
+$btn-gray-text-hover:   $text;
+$btn-gray-icon:         $text-muted-60;
+
+// Transitions
+$transition-base: all 0.3s ease;
+$transition-fast: opacity 0.2s ease;
+
+// Radii
+$radius-sm:   0.3rem;
+$radius-md:   0.4rem;
+$radius-full: 50%;
+
+// Mixins
+@mixin flex-center($gap: 0) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @if $gap != 0 { gap: $gap; }
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin accent-glow($color: $accent-light) {
+  box-shadow: 0 0 12px $color;
+}
+
+@mixin text-gradient($from: $accent-light, $to: $accent) {
+  background: linear-gradient(135deg, $from, $to);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+:root {
+  font-family: 'JetBrains Mono', monospace;
+}
