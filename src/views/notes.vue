@@ -33,7 +33,7 @@ const fetchNotes = async () => {
   if (loading.value) return;
   loading.value = true;
   try {
-    const res = await fetch(`https://api.lanny.dev/notes?page=${page.value}&limit=${limit.value}`);
+    const res = await fetch(`https://notes.lanny.dev/notes?page=${page.value}&limit=${limit.value}`);
     const data = await res.json();
     // Ensure each note has an id
     notes.value = data.notes.map((note: any, i: number) => ({ id: note.id || `${page.value}-${i}`, ...note }));
