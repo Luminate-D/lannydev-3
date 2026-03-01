@@ -10,10 +10,7 @@ onMounted(async () => {
   if(!code) return router.push('/');
 
   const res = await fetch('https://api.lanny.dev/authorize?code=' + code, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    }
+    method: 'POST'
   });
 
   const data = await res.json();
