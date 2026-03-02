@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import AuthProfileButton from '@/authprofilebutton.vue';
 </script>
 
 <template>
@@ -23,25 +22,11 @@ import AuthProfileButton from '@/authprofilebutton.vue';
     </template>
   </div>
 
-<!--  <div class="authorization">-->
-<!--    <AuthProfileButton />-->
-<!--  </div>-->
-
   <router-view></router-view>
 </template>
 
 <style scoped lang="scss">
 @use '@/sass/variables' as *;
-
-.authorization {
-  display: flex;
-  position: absolute;
-  left: 2.5rem;
-  top: 1.5rem;
-
-  // fuck you
-  z-index: 999;
-}
 
 .navigation {
   display: flex;

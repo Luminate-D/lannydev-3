@@ -144,7 +144,7 @@ onBeforeUnmount(() => {
                   <span class="time-display">{{ timeDisplay(comp.id) }}</span>
                   <audio
                     :ref="el => setAudioRef(comp.id, el as HTMLAudioElement | null)"
-                    :src="`assets/compositions/${comp.file_key}.mp3`"
+                    :src="`https://cdn.lanny.dev/assets/compositions/${comp.file_key}.mp3`"
                     @loadedmetadata="onLoadedMetadata(comp.id, $event)"
                     @timeupdate="onTimeUpdate(comp.id, $event)"
                     @ended="onEnded(comp.id)"

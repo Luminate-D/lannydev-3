@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue';
+import AuthCard from '@/components/authcard.vue';
 
 const NOTE_HEIGHT_PX = 105;
 const MIN_NOTES_PER_PAGE = 5;
@@ -99,6 +100,9 @@ onMounted(fetchNotes);
 </script>
 
 <template>
+  <div class="auth">
+    <AuthCard />
+  </div>
   <div class="wrapper">
     <div class="notes-wrapper">
       <p class="notes-title">dont overuse, pls</p>
@@ -130,6 +134,13 @@ onMounted(fetchNotes);
 
 <style scoped lang="scss">
 @use '@/sass/variables' as *;
+
+.auth {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  z-index: 10;
+}
 
 .wrapper {
   position: absolute;
