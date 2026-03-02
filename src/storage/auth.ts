@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 
 interface IUser {
-    id: string;
+    telegram_id: string;
     username: string;
     photo_url: string;
 }
