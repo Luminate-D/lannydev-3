@@ -1,11 +1,19 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 import AuthCard from '@/components/authcard.vue';
+import { useAuthStore } from '@/storage/auth'; // Import store to check user for optimistic update
 
+const auth = useAuthStore();
 const NOTE_HEIGHT_PX = 105;
 const MIN_NOTES_PER_PAGE = 5;
 
-const notes = ref<{ id: string; content: string; created_at: string }[]>([]);
+// Update type definition to include optional author
+const notes = ref<{
+  id: string;
+  content: string;
+  created_at: string;
+  author?: { photo_url: string; username: string } | null;
+}[]>([]);
 const page = ref(1);
 const hasNext = ref(false);
 const inputText = ref('');
@@ -69,15 +77,25 @@ const sendNote = async () => {
   const text = inputText.value.trim();
   if (!text || postDisabled.value) return;
 
-  const newNote = { id: `tmp-${Date.now()}`, content: text, created_at: new Date().toISOString() };
+  // Optimistic update: include current user info if available
+  const newNote = {
+    id: `tmp-${Date.now()}`,
+    content: text,
+    created_at: new Date().toISOString(),
+    author: auth.user ? { photo_url: auth.user.photo_url, username: auth.user.username } : null
+  };
   notes.value.unshift(newNote);
 
   inputText.value = '';
 
   try {
+    const token = localStorage.getItem('access_token');
     await fetch('https://notes.lanny.dev/create', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+      },
       body: JSON.stringify({ content: text }),
     });
   } catch (err) {
@@ -120,7 +138,13 @@ onMounted(fetchNotes);
         <template v-if="formattedNotes.length">
           <template v-for="note in formattedNotes" :key="note.id">
             <div class="note-item">
-              <div class="note-timestamp">{{ note.formatted }}</div>
+              <div class="note-header">
+                <div class="note-timestamp">{{ note.formatted }}</div>
+                <div v-if="note.author" class="note-author">
+                   <span class="note-author-name">{{ note.author.username }}</span>
+                   <img :src="note.author.photo_url" class="note-author-pic" alt="avatar" />
+                </div>
+              </div>
               <p class="note-text">{{ note.content }}</p>
             </div>
             <hr v-if="formattedNotes.indexOf(note) < formattedNotes.length - 1" class="note-delimiter" />
@@ -231,11 +255,36 @@ onMounted(fetchNotes);
   padding: 1rem 0;
 }
 
+.note-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.4rem;
+}
+
 .note-timestamp {
   font-size: 0.75rem;
   color: $accent-light;
   letter-spacing: 0.08em;
-  margin-bottom: 0.4rem;
+  // margin-bottom removed as it is handled by header flex
+}
+
+.note-author {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.note-author-name {
+  font-size: 0.75rem;
+  color: $text-muted-60;
+}
+
+.note-author-pic {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .note-text {
