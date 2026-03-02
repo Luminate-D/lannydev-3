@@ -43,7 +43,7 @@ export const useAuthStore = defineStore('auth', {
                             localStorage.setItem('refresh_token', data.refresh_token);
                             await this.login();
                         } else {
-                            console.log('Refresh error:', data);
+                            console.log('Refresh error (token expired?):', data);
                         }
                     }
                 }
