@@ -141,7 +141,7 @@ onMounted(fetchNotes);
               <div class="note-header">
                 <div class="note-timestamp">{{ note.formatted }}</div>
                 <div v-if="note.author" class="note-author">
-                   <span class="note-author-name">{{ note.author.username }}</span>
+                   <span class="note-author-name">@{{ note.author.username }}</span>
                    <img :src="note.author.photo_url" class="note-author-pic" alt="avatar" />
                 </div>
               </div>

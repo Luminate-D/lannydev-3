@@ -17,7 +17,7 @@ const login = () => {
         <div v-else-if="auth.user" class="auth-card logged-in">
             <img :src="auth.user.photo_url" alt="User Avatar" class="auth-avatar" />
             <div class="auth-info">
-                <span class="auth-username">{{ auth.user.username }}</span>
+                <span class="auth-username">@{{ auth.user.username }}</span>
                 <span class="auth-id">ID: {{ auth.user.telegram_id }}</span>
             </div>
         </div>
