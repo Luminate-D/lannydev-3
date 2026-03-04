@@ -154,7 +154,7 @@ onBeforeUnmount(() => {
                 <div class="comp-actions">
                   <a
                     class="comp-download-btn"
-                    :href="`assets/compositions/${comp.file_key}.pdf`"
+                    :href="`https://cdn.lanny.dev/assets/compositions/${comp.file_key}.pdf`"
                     download
                     title="Download PDF score"
                   >PDF SCORE</a>
