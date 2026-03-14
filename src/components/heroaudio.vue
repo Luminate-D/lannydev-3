@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import polonaise_op53 from '@/assets/feelings/polonaise_op53.m4a';
+import op10n4 from '@/assets/feelings/op10n4.m4a';
 
 const audio = ref<HTMLAudioElement | null>(null);
 const isPlaying = ref(false);
@@ -63,7 +63,7 @@ const onEnded = () => {
       <span class="time-display">{{ formatTime(currentTime) }}</span>
       <audio
           ref="audio"
-          :src="polonaise_op53"
+          :src="op10n4"
           @timeupdate="onTimeUpdate"
           @loadedmetadata="onLoadedMetadata"
           @ended="onEnded"
