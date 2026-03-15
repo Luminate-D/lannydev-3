@@ -10,6 +10,21 @@ const year = new Date().getFullYear();
 const play = (fire: boolean) => {
   new Audio(fire ? Cm : Csm).play();
 }
+
+import { ref } from 'vue';
+
+const gpgCommand = 'gpg --recv-keys 71D1E36680FD6D5E';
+const copied = ref(false);
+
+const copyGpgCommand = async () => {
+  try {
+    await navigator.clipboard.writeText(gpgCommand);
+    copied.value = true;
+    setTimeout(() => copied.value = false, 1000);
+  } catch (e) {
+    copied.value = false;
+  }
+}
 </script>
 
 <template>
@@ -33,6 +48,10 @@ const play = (fire: boolean) => {
         <span class="tonality" @click="play(false)">C# minor</span>'s quiet depth
         · {{ year }}
       </p>
+      <span class="gpg-copy" @click="copyGpgCommand">
+        <span v-if="!copied">> gpg --recv-keys 71D1E36680FD6D5E <</span>
+        <span v-else>Copied!</span>
+      </span>
     </div>
 
     <Webring />
@@ -123,6 +142,19 @@ const play = (fire: boolean) => {
     cursor: pointer;
     color: $accent-light;
     text-decoration: underline;
+  }
+}
+
+.gpg-copy {
+  font-size: 0.8rem;
+  color: $text-muted-25;
+  cursor: pointer;
+  transition: color 0.2s;
+  &:hover {
+    color: $accent-light;
+  }
+  &:active {
+    color: $accent;
   }
 }
 </style>
