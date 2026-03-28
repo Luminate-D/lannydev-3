@@ -12,6 +12,10 @@
         <div class="label">I made those</div>
         <router-link to="/imadethose" class="dot"></router-link>
       </div>
+      <div class="nav-item">
+        <div class="label">LannyForces</div>
+        <a href="https://lf.lanny.dev" class="dot dot--purple"></a>
+      </div>
     </template>
 
     <template v-else>
@@ -69,6 +73,15 @@
       &:hover {
         transform: scale(1.15);
         box-shadow: 0 0 20px $accent-glow-strong;
+      }
+
+      &.dot--purple {
+        background: $purple;
+        box-shadow: 0 0 14px rgba(139, 92, 246, 0.75);
+
+        &:hover {
+          box-shadow: 0 0 20px rgba(139, 92, 246, 0.95);
+        }
       }
     }
   }
