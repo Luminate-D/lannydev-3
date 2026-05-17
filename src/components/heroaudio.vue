@@ -62,7 +62,7 @@ const onEnded = () => {
       <span class="time-display">{{ formatTime(currentTime) }}</span>
       <audio
           ref="audio"
-          :src="'https://cdn.lanny.dev/feeling/today.mp3?r=' + Math.random()"
+          :src="'https://cdn.lanny.dev/feelings/today.mp3?r=' + Math.random()"
           @timeupdate="onTimeUpdate"
           @loadedmetadata="onLoadedMetadata"
           @ended="onEnded"
