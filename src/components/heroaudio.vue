@@ -6,6 +6,7 @@ const isPlaying = ref(false);
 const currentTime = ref(0);
 const duration = ref(0);
 
+const feelingUrl = 'https://cdn.lanny.dev/feelings/today.mp3?r=' + Math.random();
 const playBtnText = computed(() => (isPlaying.value ? '⏸' : '▶'));
 
 const formatTime = (sec: number) => {
@@ -62,7 +63,7 @@ const onEnded = () => {
       <span class="time-display">{{ formatTime(currentTime) }}</span>
       <audio
           ref="audio"
-          :src="'https://cdn.lanny.dev/feelings/today.mp3?r=' + Math.random()"
+          :src="feelingUrl"
           @timeupdate="onTimeUpdate"
           @loadedmetadata="onLoadedMetadata"
           @ended="onEnded"
