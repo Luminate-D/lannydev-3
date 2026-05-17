@@ -42,7 +42,6 @@
 
   width: max-content;
 
-  // fuck you
   z-index: 999;
 
   .nav-item {
